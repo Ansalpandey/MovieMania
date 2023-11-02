@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:focusableInTouchMode="true"
     android:background="@drawable/login_background"
-    tools:context=".SignInActivity">
+    tools:context=".Activities.SignInActivity">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -74,10 +74,11 @@
                 android:textColor="@color/dark_gray"
                 android:textSize="12sp" />
 
-            <Button
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/sign_in"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                style="@android:style/Widget.Button"
                 android:layout_marginStart="50dp"
                 android:layout_marginTop="14dp"
                 android:layout_marginEnd="50dp"
