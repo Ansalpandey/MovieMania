@@ -10,16 +10,18 @@ import androidx.viewpager2.widget.CompositePageTransformer;
 import androidx.viewpager2.widget.MarginPageTransformer;
 import androidx.viewpager2.widget.ViewPager2;
 
-import com.company.moviemania.Adapters.SliderAdapters;
-import com.company.moviemania.Domain.SliderItems;
+import com.company.moviemania.Adapters.SliderAdapter;
+import com.company.moviemania.Domian.SliderItems;
 import com.company.moviemania.R;
 
 import java.util.ArrayList;
+
 import java.util.List;
 import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
-    
+
+
     private ViewPager2 viewPager;
     private final Handler sliderHandler = new Handler();
     private static final long AUTO_SCROLL_DELAY = 4000; // 4 seconds
@@ -39,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
         sliderItems.add(new SliderItems(R.drawable.wide1));
         sliderItems.add(new SliderItems(R.drawable.wide3));
 
-        SliderAdapters sliderAdapter = new SliderAdapters(sliderItems, viewPager);
+        SliderAdapter sliderAdapter = new SliderAdapter(sliderItems, viewPager);
         viewPager.setAdapter(sliderAdapter);
 
         viewPager.setClipToPadding(false);
