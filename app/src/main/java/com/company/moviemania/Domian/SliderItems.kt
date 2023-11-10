@@ -1,18 +1,3 @@
-package com.company.moviemania.Domian;
+package com.company.moviemania.Domian
 
-public class SliderItems {
-
-    private int image;
-
-    public SliderItems(int image) {
-        this.image = image;
-    }
-
-    public int getImage() {
-        return image;
-    }
-
-    public void setImage(int image) {
-        this.image = image;
-    }
-}
+class SliderItems(var image: Int)

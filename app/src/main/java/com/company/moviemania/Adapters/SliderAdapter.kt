@@ -1,74 +1,64 @@
-package com.company.moviemania.Adapters;
+package com.company.moviemania.Adapters
 
-import android.content.Context;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ImageView;
+import android.content.Context
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.ImageView
+import androidx.recyclerview.widget.RecyclerView
+import androidx.viewpager2.widget.ViewPager2
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.bitmap.CenterCrop
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners
+import com.bumptech.glide.request.RequestOptions
+import com.company.moviemania.Adapters.SliderAdapter.SliderViewHolder
+import com.company.moviemania.Domian.SliderItems
+import com.company.moviemania.R
 
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.viewpager2.widget.ViewPager2;
-
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.resource.bitmap.CenterCrop;
-import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
-import com.bumptech.glide.request.RequestOptions;
-import com.company.moviemania.Domian.SliderItems;
-import com.company.moviemania.R;
-
-import java.util.ArrayList;
-import java.util.List;
-
-public class SliderAdapter extends RecyclerView.Adapter<SliderAdapter.SliderViewHolder> {
-    private List<SliderItems> sliderItems;
-    private ViewPager2 viewPager;
-
-    private Context context;
-
-    public SliderAdapter(List<SliderItems> sliderItems, ViewPager2 viewPager) {
-        this.sliderItems = sliderItems;
-        this.viewPager = viewPager;
+class SliderAdapter(sliderItems: MutableList<SliderItems>, viewPager: ViewPager2) :
+    RecyclerView.Adapter<SliderViewHolder>() {
+    private val sliderItems: List<SliderItems>
+    private val viewPager: ViewPager2
+    private var context: Context? = null
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SliderViewHolder {
+        context = parent.context
+        return SliderViewHolder(
+            LayoutInflater.from(parent.context).inflate(R.layout.slider_items, parent, false)
+        )
     }
 
-    @NonNull
-    @Override
-    public SliderAdapter.SliderViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        context = parent.getContext();
-        return new SliderViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.slider_items, parent, false));
-    }
-
-    @Override
-    public void onBindViewHolder(@NonNull SliderAdapter.SliderViewHolder holder, int position) {
-        holder.setImage(sliderItems.get(position));
-
-        if(position == sliderItems.size()-2) {
-            viewPager.post(runnable);
+    override fun onBindViewHolder(holder: SliderViewHolder, position: Int) {
+        holder.setImage(sliderItems[position])
+        if (position == sliderItems.size - 2) {
+            viewPager.post(runnable)
         }
     }
 
-    @Override
-    public int getItemCount() {
-        return sliderItems.size();
+    override fun getItemCount(): Int {
+        return sliderItems.size
     }
 
-    public class SliderViewHolder extends RecyclerView.ViewHolder{
-        private ImageView imageView;
-        public SliderViewHolder(@NonNull View itemView) {
-            super(itemView);
-            imageView = itemView.findViewById(R.id.imageSlide);
+    inner class SliderViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        private val imageView: ImageView
+
+        init {
+            imageView = itemView.findViewById(R.id.imageSlide)
         }
-        void setImage(SliderItems sliderItems) {
-            RequestOptions requestOptions = new RequestOptions();
-            requestOptions = requestOptions.transform(new CenterCrop(), new RoundedCorners(60));
-            Glide.with(context).load(sliderItems.getImage()).apply(requestOptions).into(imageView);
+
+        fun setImage(sliderItems: SliderItems) {
+            var requestOptions = RequestOptions()
+            requestOptions = requestOptions.transform(CenterCrop(), RoundedCorners(60))
+            Glide.with(context!!).load(sliderItems.image).apply(requestOptions).into(imageView)
         }
     }
-    private  Runnable runnable = new Runnable() {
-        @Override
-        public void run() {
-            sliderItems.addAll(sliderItems);
-            notifyDataSetChanged();
-        }
-    };
+
+    private val runnable = Runnable {
+        sliderItems.addAll(sliderItems)
+        notifyDataSetChanged()
+    }
+
+    init {
+        this.sliderItems = sliderItems
+        this.viewPager = viewPager
+    }
 }

@@ -1,50 +1,37 @@
-package com.company.moviemania.Adapters;
+package com.company.moviemania.Adapters
 
-import android.content.Context;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ImageView;
+import android.content.Context
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.ImageView
+import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.company.moviemania.R
 
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
-
-import com.bumptech.glide.Glide;
-import com.company.moviemania.R;
-
-import java.util.List;
-
-public class ActorsListAdapter extends RecyclerView.Adapter<ActorsListAdapter.ViewHolder> {
-    List<String> images;
-    Context context;
-
-    public ActorsListAdapter(List<String> images) {
-        this.images = images;
+class ActorsListAdapter(var images: List<String>) :
+    RecyclerView.Adapter<ActorsListAdapter.ViewHolder>() {
+    var context: Context? = null
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+        context = parent.context
+        val inflate =
+            LayoutInflater.from(parent.context).inflate(R.layout.view_actors, parent, false)
+        return ViewHolder(inflate)
     }
 
-    @NonNull
-    @Override
-    public ActorsListAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        context = parent.getContext();
-        View inflate = LayoutInflater.from(parent.getContext()).inflate(R.layout.view_actors, parent, false);
-        return new ViewHolder(inflate);
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        Glide.with(context!!).load(images[position]).into(holder.banner)
     }
 
-    @Override
-    public void onBindViewHolder(@NonNull ActorsListAdapter.ViewHolder holder, int position) {
-        Glide.with(context).load(images.get(position)).into(holder.banner);
+    override fun getItemCount(): Int {
+        return images.size
     }
 
-    @Override
-    public int getItemCount() {
-        return images.size();
-    }
+    inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        var banner: ImageView
 
-    public class ViewHolder extends RecyclerView.ViewHolder{
-        ImageView banner;
-        public ViewHolder(@NonNull View itemView) {
-            super(itemView);
-            banner = itemView.findViewById(R.id.itemImages);
+        init {
+            banner = itemView.findViewById(R.id.itemImages)
         }
     }
 }
